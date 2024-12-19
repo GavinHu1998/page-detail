@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post List</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
+        .post-list { width: 80%; margin: 20px auto; background-color: white; padding: 20px; }
+        .post-title { color: #007bff; text-decoration: none; }
+        .post-title:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div id="post-list" class="post-list">
+        <h1>Post List</h1>
+    </div>
+
+    <script>
+        async function getPostList() {
+            const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+            const posts = await res.json();
+
+            const postListContainer = document.getElementById('post-list');
+            const ul = document.createElement('ul');
+
+            posts.forEach(post => {
+                const li = document.createElement('li');
+                const anchor = document.createElement('a');
+
+                anchor.textContent = post.title;
+                anchor.classList.add('post-title');
+                // 将帖子 ID 作为查询参数添加到链接中
+                anchor.href = `post.html?id=${post.id}`;
+                
+                li.appendChild(anchor);
+                ul.appendChild(li);
+            });
+
+            postListContainer.appendChild(ul);
+        }
+
+        getPostList();
+    </script>
+
+</body>
+</html>

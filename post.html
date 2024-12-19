@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
+        .post-container { width: 80%; margin: 20px auto; background-color: white; padding: 20px; }
+        .back-link { color: #007bff; text-decoration: none; display: inline-block; margin-top: 20px; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div id="post-container" class="post-container">
+        <!-- 帖子详细信息将被动态填充 -->
+    </div> 
+
+    <script>
+        async function getPostData() {
+            // 从 URL 查询参数中获取帖子 ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+
+            if (!postId) {
+                alert('Post ID is missing!');
+                return;
+            }
+
+            const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+            const post = await res.json();
+
+            const postContainer = document.getElementById('post-container');
+
+            // 创建并填充帖子内容
+            const titleElement = document.createElement('h1');
+            titleElement.textContent = post.title;
+
+            const bodyElement = document.createElement('p');
+            bodyElement.textContent = post.body;
+
+            const backLink = document.createElement('a');
+            backLink.href = 'index.html';
+            backLink.textContent = 'Back to Post List';
+            backLink.classList.add('back-link');
+
+            postContainer.appendChild(titleElement);
+            postContainer.appendChild(bodyElement);
+            postContainer.appendChild(backLink);
+        }
+
+        getPostData();
+    </script>
+
+</body>
+</html>
